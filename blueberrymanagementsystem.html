@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farmer Management</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Farmer Management</h1>
+
+  <!-- Farmer Ekleme Formu -->
+  <form id="farmer-form">
+    <label for="farmer-id">Farmer ID:</label>
+    <input type="text" id="farmer-id" placeholder="Unique Farmer ID" required>
+
+    <label for="farmer-name">Name:</label>
+    <input type="text" id="farmer-name" placeholder="Farmer Name" required>
+
+    <label for="farmer-contact">Contact:</label>
+    <input type="text" id="farmer-contact" placeholder="Phone or Email" required>
+
+    <label for="farmer-location">Location:</label>
+    <input type="text" id="farmer-location" placeholder="Address or GPS coordinates" required>
+
+    <button type="button" id="add-farmer-button">Add Farmer</button>
+  </form>
+
+  <!-- Farmer Arama -->
+  <label for="search-farmer">Search by Name:</label>
+  <input type="text" id="search-farmer" placeholder="Search Farmer Name">
+
+  <!-- Farmer Tablosu -->
+  <table id="farmer-table">
+    <thead>
+      <tr>
+        <th>Farmer ID</th>
+        <th>Name</th>
+        <th>Contact</th>
+        <th>Location</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Dinamik olarak doldurulacak -->
+    </tbody>
+  </table>
+
+  <h2>Purchase Records</h2>
+
+  <!-- Purchase Ekleme Formu -->
+  <form id="purchase-form">
+    <label for="purchase-id">Purchase ID:</label>
+    <input type="text" id="purchase-id" placeholder="Unique Purchase ID" required>
+
+    <label for="purchase-farmer-id">Farmer ID:</label>
+    <input type="text" id="purchase-farmer-id" placeholder="Farmer ID" required>
+
+    <label for="purchase-date">Date of Purchase:</label>
+    <input type="date" id="purchase-date" required>
+
+    <label for="purchase-quantity">Quantity (kg):</label>
+    <input type="number" id="purchase-quantity" placeholder="Quantity in kilograms" required>
+
+    <label for="purchase-price">Price per kg:</label>
+    <input type="number" id="purchase-price" placeholder="Price per kilogram" required>
+
+    <button type="button" id="add-purchase-button">Add Purchase</button>
+  </form>
+
+  <!-- Satın Alma Tablosu -->
+  <h3>Purchase Records</h3>
+
+  <!-- Çiftçi ID'sine Göre Filtreleme -->
+<div>
+  <label for="filter-farmer-id">Farmer ID:</label>
+  <input type="text" id="filter-farmer-id" placeholder="Enter Farmer ID">
+  <button type="button" id="filter-purchases-button">Filter</button>
+  <button type="button" id="show-all-purchases-button">Show All</button>
+</div>
+
+  <table id="purchase-table">
+    <thead>
+      <tr>
+        <th>Purchase ID</th>
+        <th>Farmer ID</th>
+        <th>Date of Purchase</th>
+        <th>Quantity (kg)</th>
+        <th>Price per kg</th>
+        <th>Total Cost</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Dinamik olarak doldurulacak -->
+    </tbody>
+  </table>
+
+  <h2>Total Blueberry in Stock: <span id="total-blueberry">0</span> kg</h2>
+
+  <h2>Expense Report</h2>
+  <form id="report-form">
+    <label for="start-date">Start Date:</label>
+    <input type="date" id="start-date" required>
+
+    <label for="end-date">End Date:</label>
+    <input type="date" id="end-date" required>
+
+    <button type="button" id="generate-report-button">Generate Report</button>
+  </form>
+
+  <div id="report-results">
+    <h3>Report Results</h3>
+    <p id="total-expense">Total Expense: </p>
+  </div>
+
+  <!-- Packaging Section -->
+  <h2>Packaging Blueberries</h2>
+
+  <!-- Kategoriler -->
+  <label for="category-select">Select Category:</label>
+  <select id="category-select">
+    <option value="small">Small (100g)</option>
+    <option value="medium">Medium (250g)</option>
+    <option value="large">Large (500g)</option>
+    <option value="extraLarge">Extra Large (1kg)</option>
+    <option value="familyPack">Family Pack (2kg)</option>
+    <option value="bulkPack">Bulk Pack (5kg)</option>
+    <option value="premium">Premium (custom weight)</option>
+  </select>
+
+  <!-- Paketleme Miktarı -->
+  <label for="quantity-input">Enter quantity:</label>
+  <input type="number" id="quantity-input" placeholder="Quantity to package" required>
+
+  <!-- Paketleme Butonu -->
+  <button type="button" id="package-button">Package</button>
+
+  <!-- Stok Bilgisi -->
+  <p id="remaining-stock">Remaining Stock: 0 kg</p>
+
+  <!-- Sonuç Gösterimi -->
+  <p id="packaged-result"></p>
+
+  <div id="stock-history"></div>
+
+
+  <div id="small-stock-alert"></div>
+<div id="medium-stock-alert"></div>
+<div id="large-stock-alert"></div>
+<div id="extraLarge-stock-alert"></div>
+<div id="familyPack-stock-alert"></div>
+<div id="bulkPack-stock-alert"></div>
+<div id="premium-stock-alert"></div>
+
+
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sipariş Yönetim Sistemi</title>
+  <link rel="stylesheet" href="styles.css"> 
+</head>
+<body>
+
+  <!-- Sipariş Formu -->
+  <div id="order-form">
+    <h2>Sipariş Ekle</h2>
+    <label for="order-id">Sipariş ID:</label>
+    <input type="text" id="order-id" required>
+
+    <label for="customer-name">Müşteri Adı:</label>
+    <input type="text" id="customer-name" required>
+
+    <label for="customer-contact">Müşteri İletişim:</label>
+    <input type="text" id="customer-contact" required>
+
+    <label for="product-category">Ürün Kategorisi:</label>
+    <select id="product-category" required>
+      <option value="small">Small (100g)</option>
+      <option value="medium">Medium (250g)</option>
+      <option value="large">Large (500g)</option>
+      <option value="extraLarge">Extra Large (1kg)</option>
+      <option value="familyPack">Family Pack (2kg)</option>
+      <option value="bulkPack">Bulk Pack (5kg)</option>
+      <option value="premium">Premium (Custom weight)</option>
+    </select>
+
+    <label for="order-quantity">Sipariş Miktarı (adet):</label>
+    <input type="number" id="order-quantity" required min="1">
+
+    <label for="unit-price">Birim Fiyat (TL):</label>
+    <input type="text" id="unit-price" readonly>
+
+    <label for="total-price">Toplam Fiyat (TL):</label>
+    <input type="text" id="total-price" readonly>
+
+    <button id="add-order-button">Sipariş Ekle</button>
+  </div>
+
+  <hr>
+
+  <!-- Sipariş Filtreleme -->
+  <div>
+    <h2>Sipariş Arama ve Filtreleme</h2>
+    <label for="search-order">Sipariş ID Ara:</label>
+    <input type="text" id="search-order">
+
+    <label for="search-status">Sipariş Durumu:</label>
+    <select id="search-status">
+      <option value="">Tüm Durumlar</option>
+      <option value="Pending">Beklemede</option>
+      <option value="Processed">İşleniyor</option>
+      <option value="Shipped">Gönderildi</option>
+      <option value="Delivered">Teslim Edildi</option>
+    </select>
+  </div>
+
+  <hr>
+
+  <!-- Fiyat Güncelleme Formu -->
+  <div>
+    <h2>Ürün Kategorisi Fiyatlarını Güncelle</h2>
+    <table id="price-update-table">
+      <thead>
+        <tr>
+          <th>Kategori</th>
+          <th>Ağırlık (kg)</th>
+          <th>Birim Fiyat (TL)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Small (100g)</td>
+          <td>0.1</td>
+          <td><input type="number" id="small-price" value="8"></td>
+        </tr>
+        <tr>
+          <td>Medium (250g)</td>
+          <td>0.25</td>
+          <td><input type="number" id="medium-price" value="14"></td>
+        </tr>
+        <tr>
+          <td>Large (500g)</td>
+          <td>0.5</td>
+          <td><input type="number" id="large-price" value="24"></td>
+        </tr>
+        <tr>
+          <td>Extra Large (1kg)</td>
+          <td>1</td>
+          <td><input type="number" id="extra-large-price" value="38"></td>
+        </tr>
+        <tr>
+          <td>Family Pack (2kg)</td>
+          <td>2</td>
+          <td><input type="number" id="family-pack-price" value="60"></td>
+        </tr>
+        <tr>
+          <td>Bulk Pack (5kg)</td>
+          <td>5</td>
+          <td><input type="number" id="bulk-pack-price" value="100"></td>
+        </tr>
+        <tr>
+          <td>Premium (Custom weight)</td>
+          <td>Custom</td>
+          <td><input type="number" id="premium-price" value="0"></td>
+        </tr>
+      </tbody>
+    </table>
+    <button id="update-prices-button">Fiyatları Güncelle</button>
+  </div>
+
+  <hr>
+
+  <!-- Sipariş Tablosu -->
+  <div>
+    <h2>Siparişler</h2>
+    <table id="order-table">
+      <thead>
+        <tr>
+          <th>Sipariş ID</th>
+          <th>Müşteri Adı</th>
+          <th>Müşteri İletişim</th>
+          <th>Ürün Kategorisi</th>
+          <th>Miktar</th>
+          <th>Toplam Fiyat</th>
+          <th>Durum</th>
+          <th>İşlemler</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Siparişler burada listelenecek -->
+      </tbody>
+    </table>
+  </div>
+
+  <label for="search-status">Order Status:</label>
+<select id="search-status">
+  <option value="">All</option>
+  <option value="Pending">Pending</option>
+  <option value="Processed">Processed</option>
+  <option value="Shipped">Shipped</option>
+  <option value="Delivered">Delivered</option>
+</select>
+
+
+
+  <!-- Gelir Analiz Raporları -->
+<section id="revenue-section">
+  <h3>Toplam Gelir ve Kategori Bazlı Gelir</h3>
+  <div>
+    <p><strong>Toplam Gelir:</strong> <span id="total-revenue">0</span> TL</p>
+    <h4>Kategori Bazlı Gelir:</h4>
+    <ul id="category-revenue-list"></ul>
+  </div>
+  <!-- Gelir Dağılımı Grafiği -->
+  <canvas id="revenue-chart" width="400" height="200"></canvas>
+</section>
+
+<!-- Chart.js Kütüphanesi (Grafik için) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Rapor Butonu -->
+<button id="generate-report">Detaylı Rapor Oluştur</button>
+
+
+<button id="export-csv-button">CSV olarak dışa aktar</button>
+
+
+
+
+<section id="financial-analysis">
+  <h2>Finansal Analiz Modülü</h2>
+  <button id="generate-financial-report">Finansal Raporu Oluştur</button>
+  <div id="financial-report">
+    <!-- Finansal rapor burada gösterilecek -->
+  </div>
+</section>
+
+
+
+<h2>Inventory Management</h2>
+
+<!-- Stok Uyarı Kutusu -->
+<div id="inventory-alerts" style="color: red; font-weight: bold;"></div>
+
+<!-- Stok Tablosu -->
+<table id="inventory-table" border="1">
+  <thead>
+    <tr>
+      <th>Kategori</th>
+      <th>Mevcut Miktar</th>
+      <th>Yeniden Sipariş Seviyesi</th>
+      <th>Tedarikçi</th>
+      <th>İşlem</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<!-- Talep Tahmini -->
+<h3>Talep Tahmini</h3>
+<label for="forecastDays">Gün Sayısı:</label>
+<input type="number" id="forecastDays" value="7" />
+<button onclick="demandForecasting(document.getElementById('forecastDays').value)">Talep Tahmini Yap</button>
+<div id="forecastResult"></div>
+
+
+
+
+
+
+  
+</body>
+</html>
+
+
+
+
+  <script src="farmer.js"></script>
+  <script src="purchase_package.js"></script>
+  <script src="report.js"></script>
+  <script src="salesmanagement.js"></script>
+  <script src="financialanalysis.js"></script>
+  <script src="InventoryManagement.js"></script>
+  
+
+  
+  
+</body>
+</html>
